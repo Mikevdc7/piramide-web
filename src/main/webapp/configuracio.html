@@ -2,16 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/styles.css" type="text/css">
     <title>Configuració de la partida</title>
 </head>
 <body>
-  <h2>A continuació has d'indicar el nom dels jugadors</h2>
-  <div>
-      <label for="j1">Jugador 1:</label>
-      <div>
-          <input type="text" name="j1" id="j1">
+<!--Cuerpo general-->
+  <div id="general">
+<!--      Parte izquierda: Información acerca de las cartas de cada jugador-->
+      <div id="players-output">
+          <div class="player-name">
+              <label>Jugador 1:</label>
+              <div class="player-cards">
+                  <img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros">
+              </div>
+              <label>Jugador 2:</label>
+              <div class="player-cards">
+                  <img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros">
+              </div>
+              <label>Jugador 3:</label>
+              <div class="player-cards">
+                  <img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros">
+              </div>
+              <label>Jugador 4:</label>
+              <div class="player-cards">
+                  <img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros">
+              </div>
+              <label>Jugador 5:</label>
+              <div class="player-cards">
+                  <img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros">
+              </div>
+              <label>Jugador 6:</label>
+              <div class="player-cards">
+                  <img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros">
+              </div>
+          </div>
+      </div>
+    <!--      Parte central: La Piramide-->
+      <div id="piramide-output">
+          <div id="piramide-fila">
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+              <div class="card-img"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"><img src="img/1_oros.png" alt="1 de Oros"></div>
+          </div>
+      </div>
+<!--      Parte de abajo: consola-->
+      <div id="console-output">
+          <div id="info">
+              <label>Información acerca de la partida.</label>
+          </div>
+          <div id="botonera">
+              <a href="/siguiente-carta">Siguiente carta</a>
+              <a href="/restart">Reiniciar la partida</a>
+          </div>
       </div>
   </div>
-
 </body>
 </html>

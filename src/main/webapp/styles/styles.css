@@ -1,0 +1,91 @@
+*{
+    margin: 0;
+    padding: 0;
+    background-color: tomato;
+}
+
+#general{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background-color: violet;
+}
+
+#players-output{
+    width: 15%;
+    height: 100%;
+    background-color: mediumSeaGreen;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.player-name{
+    width: 100%;
+    height: 100%;
+}
+
+.player-name label{
+    font-size: 15pt;
+}
+
+#players-output img{
+    width: 80px;
+}
+
+#piramide-output{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 85%;
+    height: 100%;
+    background-color: slateBlue;
+}
+
+#piramide-fila{
+    width: 100%;
+    height: 100%;
+}
+
+#piramide-output img{
+    width: 55px;
+}
+
+.card-img{
+    text-align: center;
+}
+
+#console-output{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 85%;
+    height: 15%;
+    background-color: lightGray;
+}
+
+#info, #botonera {
+    background-color: lightblue;
+    text-align: center;
+    vertical-align: center;
+}
+
+#info {
+    margin: 40px;
+}
+
+#info label{
+    font-size: 20pt;
+}
+
+#botonera {
+    margin: 20px;
+}
+
+#botonera a{
+    padding: 3px;
+    background-color: lightGray;
+    text-decoration: none;
+    font-size: 14pt;
+    color: black;
+    box-shadow: 2px 2px 2px black;
+}
