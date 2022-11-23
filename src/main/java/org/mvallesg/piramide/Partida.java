@@ -14,6 +14,15 @@ public class Partida {
     private List<Carta> llistaCartesPisoActual;
     private int pisoActual;
     private List<Carta> llistaCartes;
+    private Iterator<Map.Entry<Integer, List<Carta>>> iteratorCartesPisoActual = null;
+
+    public Partida(int nJugadors, ArrayList<Jugador> llistaJugadors) {
+        this.llistaJugadors = llistaJugadors;
+        //this.piramide = new TreeMap<>(Collections.reverseOrder());
+        this.piramide = new TreeMap<>(); // Crec que per a que es pinte bé La Piràmide, el map ha d'estar de llista més menuda a llista més gran
+        this.pisoActual = piramide.size()-1;
+        initPartida();
+    }
 
     public ArrayList<Jugador> getLlistaJugadors() {
         return llistaJugadors;
@@ -23,11 +32,16 @@ public class Partida {
         return joc;
     }
 
-    public Partida(int nJugadors, ArrayList<Jugador> llistaJugadors){
-        this.llistaJugadors = llistaJugadors;
-        this.piramide = new TreeMap<>(Collections.reverseOrder());
-        this.pisoActual = 0;
-        initPartida();
+    public SortedMap<Integer, List<Carta>> getPiramide() {
+        return piramide;
+    }
+
+    public int getPisoActual() {
+        return pisoActual;
+    }
+
+    public List<Carta> getLlistaCartes() {
+        return llistaCartes;
     }
 
     public void initPartida() {
@@ -50,8 +64,8 @@ public class Partida {
         List<Carta> llistaCartes = new ArrayList<>();
         Carta carta;
         Map<String, List<String>> baralla = joc.getBaralla();
-        for(Map.Entry<String, List<String>> element : baralla.entrySet()){
-            for(int i=0; i<element.getValue().size(); i++){
+        for (Map.Entry<String, List<String>> element : baralla.entrySet()) {
+            for (int i = 0; i < element.getValue().size(); i++) {
                 carta = new Carta();
                 carta.setPalo(element.getKey());
                 carta.setNumero(element.getValue().get(i));
@@ -63,7 +77,7 @@ public class Partida {
         Random random = new Random();
         Carta swap1, swap2;
         int r;
-        for(int i=llistaCartes.size()-1; i>=0; i--){
+        for (int i = llistaCartes.size() - 1; i >= 0; i--) {
             r = random.nextInt(0, llistaCartes.size());
             swap1 = llistaCartes.get(i);
             swap2 = llistaCartes.get(r);
@@ -73,72 +87,108 @@ public class Partida {
         return llistaCartes;
     }
 
-    public static void buscaCartaCoincident(Carta cartaAlzada, ArrayList<Jugador> llistaJugadors, int piso){
+    public String buscaCartaCoincident(Carta cartaAlzada, ArrayList<Jugador> llistaJugadors, int piso) {
         boolean alguLaTe = false;
-        for(int i=0; i<llistaJugadors.size(); i++){
-            for(int j=0; j<llistaJugadors.get(i).getCartes().size(); j++){
-                if(cartaAlzada.getNumero().equals(llistaJugadors.get(i).getCartes().get(j).getNumero())){
-                    System.out.print("\t\tAtencio! " + llistaJugadors.get(i).getNom() + " te un " + cartaAlzada.getNumero() + " i ");
-                    if(piso%2==0){
-                        System.out.print("ha de beure " + (piso-1) + " trago");
+        String text = "";
+        for (Jugador llistaJugador : llistaJugadors) {
+            for (int j = 0; j < llistaJugador.getCartes().size(); j++) {
+                if (cartaAlzada.getNumero().equals(llistaJugador.getCartes().get(j).getNumero())) {
+                    text = "\t\tAtencio! " + llistaJugador.getNom() + " te un " + cartaAlzada.getNumero() + " i ";
+                    if ((piramide.size()-piso) % 2 != 0) {
+                        text += "ha de beure " + (piramide.size()-piso) + " trago";
 
-                    } else{
-                        System.out.print("fa beure " + (piso-1) + " trago");
+                    } else {
+                        text += "fa beure " + (piramide.size()-piso) + " trago";
                     }
-                    if((piso-1)>1){
-                        System.out.print("s");
+                    if ((piramide.size()-1-piso) > 0) {
+                        text += "s";
                     }
-                    System.out.println("!\n");
+                    text += "!\n";
                     alguLaTe = true;
                 }
             }
         }
-        if(!alguLaTe){
-            System.out.println("\t\tNingu la te.\n");
+        if (!alguLaTe) {
+            text = "\t\tNingu la te.\n";
         }
+        return text;
     }
 
-    public Carta novaRonda(int indCartaPiso){
-        Carta carta = null;
-        if(llistaCartesPisoActual!=null && llistaCartesPisoActual.size()>indCartaPiso){
-            carta = llistaCartesPisoActual.get(indCartaPiso);
-        } else{
-            Iterator<Map.Entry<Integer, List<Carta>>> iterator = null;
-            Map.Entry<Integer, List<Carta>> element = null;
-            if(piramide!=null && piramide.entrySet()!=null){
-                iterator = piramide.entrySet().iterator();
+    public Carta getCarta(int piso, int indCarta){
+        return piramide.get(piso).get(indCarta);
+    }
+
+    /*
+    En este punto se está montando la pirámide (por deficiencias de esta metodología, se llama a este método
+    cada vez que se quiera destapar una carta del centro).
+    Es decir, cada vez que se destape una carta, se montará la pirámide de nuevo, y se mostrarán destapadas las
+    que ya han sido previamente destapadas.
+
+    pisoPiramide: piso que estamos montando en este momento
+    indCartaPiramide: índice de la carta que estamos montando en este momento, dentro del piso que estamos montando
+    pisoCartaActual: piso en el que se encuentra la carta que queremos destapar
+    indCartaPisoActual: índice de la carta que queremos destapar, dentro del piso en el que se encuentra
+     */
+    public String consultaCarta(int pisoPiramide, int indCartaPiramide, int pisoCartaActual, int indCartaPisoActual) {
+        String rutaCarta = "img\\carta_reves.png"; // Ruta de la carta antes de ser destapada
+        if((pisoPiramide>pisoCartaActual) || (pisoPiramide==pisoCartaActual && indCartaPiramide<=indCartaPisoActual)){
+            List<Carta> cartesPisoActual = piramide.get(pisoPiramide);
+            Carta carta = cartesPisoActual.get(indCartaPiramide);
+            String palo = carta.getPalo();
+            String numero = carta.getNumero();
+            switch (palo) {
+                case "0" -> palo = "oros";
+                case "1" -> palo = "copes";
+                case "2" -> palo = "espases";
+                case "3" -> palo = "bastos";
             }
-            if(iterator!=null && iterator.hasNext()){
-                element = iterator.next();
-                llistaCartesPisoActual=element.getValue();
-                pisoActual++;
+            rutaCarta = "img\\" + palo.toLowerCase() + "\\" + numero + ".PNG";
+        }
+        return rutaCarta;
+    }
+
+    public Carta novaRonda(int indCartaPiso) {
+        Carta carta = null;
+        if (llistaCartesPisoActual != null && llistaCartesPisoActual.size() > indCartaPiso) {
+            carta = llistaCartesPisoActual.get(indCartaPiso);
+        } else {
+
+            Map.Entry<Integer, List<Carta>> element = null;
+            if (piramide != null && iteratorCartesPisoActual == null) {
+                iteratorCartesPisoActual = piramide.entrySet().iterator();
+            }
+            if (iteratorCartesPisoActual != null && iteratorCartesPisoActual.hasNext()) {
+                element = iteratorCartesPisoActual.next();
+                llistaCartesPisoActual = element.getValue();
+                pisoActual--;
                 carta = llistaCartesPisoActual.get(0);
             }
-        } return carta;
+        }
+        return carta;
     }
 
-    public void montaPiramide(){
+    public void montaPiramide() {
         List<Carta> cartesPiso;
         Carta carta;
-        int cartesPisoActual=0;
-        int pisoActualMontaPiramide=0;
-        for (int i = 0; i < llistaCartes.size(); i+=cartesPisoActual) {
-            cartesPisoActual=pisoActualMontaPiramide+1;
+        int cartesPisoActual = 0;
+        int pisoActualMontaPiramide = 0;
+        for (int i = 0; i < llistaCartes.size(); i += cartesPisoActual) {
+            cartesPisoActual = pisoActualMontaPiramide + 1;
             cartesPiso = new ArrayList<>();
             for (int j = 0; j < cartesPisoActual; j++) {
-                if((i+j)<llistaCartes.size()){
-                    carta = llistaCartes.get(i+j);
+                if ((i + j) < llistaCartes.size()) {
+                    carta = llistaCartes.get(i + j);
                     cartesPiso.add(carta);
                 }
             }
             piramide.put(pisoActualMontaPiramide++, cartesPiso);
         }
-        if(piramide.size()>1 && piramide.get(piramide.size()-1).size()<=piramide.get(piramide.size()-2).size()){
-            List<Carta> llistaSolta = piramide.get(piramide.size()-1);
-            for(int i=0; i<llistaSolta.size(); i++){
-                piramide.get(piramide.size()-i-2).add(llistaSolta.get(i));
+        if (piramide.size() > 1 && piramide.get(piramide.size() - 1).size() <= piramide.get(piramide.size() - 2).size()) {
+            List<Carta> llistaSolta = piramide.get(piramide.size() - 1);
+            for (int i = 0; i < llistaSolta.size(); i++) {
+                piramide.get(piramide.size() - i - 2).add(llistaSolta.get(i));
             }
-            piramide.remove((piramide.size()-1));
+            piramide.remove((piramide.size() - 1));
         }
     }
 }

@@ -1,7 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="org.mvallesg.piramide.Partida, java.util.ArrayList, org.mvallesg.piramide.model.Jugador, org.mvallesg.piramide.model.Carta, java.lang.String"%>
+<%@page import="org.mvallesg.piramide.Partida, java.util.*, org.mvallesg.piramide.model.Jugador, org.mvallesg.piramide.model.Carta, java.lang.String"%>
 <%
 Partida partida = (Partida) session.getAttribute("partida");
+int pisoCartaActual = (int) session.getAttribute("pisoCartaActual");
+int cartaPisoActual = (int) session.getAttribute("cartaPisoActual");
 %>
 <!DOCTYPE html>
 <html>
@@ -26,7 +28,7 @@ Partida partida = (Partida) session.getAttribute("partida");
                         <%   switch(palo){
                                  case "0":
                                      palo="oros";
-                                      break;
+                                     break;
                                  case "1":
                                      palo="copes";
                                      break;
@@ -46,8 +48,27 @@ Partida partida = (Partida) session.getAttribute("partida");
             </div>
 
             <div id="piramide-output">
+                <div id="piramide-fila">
+                    <%for(Map.Entry<Integer, List<Carta>> pisoPiramide: partida.getPiramide().entrySet()){
+                        ArrayList<Carta> cartesPiso = (ArrayList<Carta>) pisoPiramide.getValue();%>
+                        <div class="card-img">
+                        <%for(int i=0; i<cartesPiso.size(); i++){%>
+                            <%String rutaCarta = partida.consultaCarta(pisoPiramide.getKey(), i, pisoCartaActual, cartaPisoActual);%>
+                            <img src="<%out.print(rutaCarta);%>">
+                        <%}%>
+                        </div>
+                    <%}%>
+                </div>
             </div>
+
             <div id="console-output">
+                      <div id="info">
+                          <label><%out.print(partida.buscaCartaCoincident(partida.getCarta(pisoCartaActual, cartaPisoActual), partida.getLlistaJugadors(), pisoCartaActual));%></label>
+                      </div>
+                      <div id="botonera">
+                          <a href="/piramide-web/siguiente-carta">Siguiente carta</a>
+                          <a href="/piramide-web/restart">Reiniciar la partida</a>
+                      </div>
             </div>
         </div>
     </body>
