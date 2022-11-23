@@ -2,25 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/index.css" type="text/css">
+    <link rel="icon" href="img/oros/1.PNG">
     <title>El Joc de La Piramide</title>
 </head>
 <body>
-
-    <h1>Benvingut al joc de La Piramide!</h1>
-    <form action="/piramide-web/config" method="post">
-        <div>
-            <label>Indica el nº de Jugadors:</label>
-            <div>
-                <select name=jugadors>
-                    <option value="2" selected>2 Jugadors</option>
-                    <option value="3">3 Jugadors</option>
-                    <option value="4">4 Jugadors</option>
-                    <option value="5">5 Jugadors</option>
-                    <option value="6">6 Jugadors</option>
-                </select>
-            </div>
+    <div id="general">
+        <div id="titulo">
+            <h1>Benvingut al joc de La Piramide!</h1>
         </div>
-        <input type="submit" value="Per introduïr els noms clica aci"/>
-    </form>
+        <div id="formulario">
+            <form action="/piramide-web/config" method="post">
+                <div>
+                    <label>Indica el nº de Jugadors:</label>
+                    <div>
+                        <select name=jugadors>
+                            <option value="2" selected>2 Jugadors</option>
+                            <option value="3">3 Jugadors</option>
+                            <option value="4">4 Jugadors</option>
+                            <option value="5">5 Jugadors</option>
+                            <option value="6">6 Jugadors</option>
+                        </select>
+                    </div>
+                </div>
+                <input id="boto" type="submit" value="Per introduïr els noms dels jugadors clica aci"/>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

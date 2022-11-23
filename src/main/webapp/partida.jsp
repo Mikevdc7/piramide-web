@@ -10,6 +10,7 @@ int cartaPisoActual = (int) session.getAttribute("cartaPisoActual");
     <head>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="styles/styles.css" type="text/css">
+        <link rel="icon" href="img/oros/1.PNG">
         <title>Partida de La Piramide</title>
     </head>
     <body>
@@ -18,7 +19,7 @@ int cartaPisoActual = (int) session.getAttribute("cartaPisoActual");
             <div id="players-output">
                 <div class="player-name">
                 <%for(int i=0; i<partida.getLlistaJugadors().size(); i++){%>
-                    <label><%out.print(partida.getLlistaJugadors().get(i).getNom());%>:</label>
+                    <label class="nom-jugador"><%out.print(partida.getLlistaJugadors().get(i).getNom());%>:</label>
                     <div class="player-cards">
                     <%ArrayList<Carta> cartesJugador = partida.getLlistaJugadors().get(i).getCartes();%>
                     <%for(int j=0; j<cartesJugador.size(); j++){%>
@@ -62,13 +63,20 @@ int cartaPisoActual = (int) session.getAttribute("cartaPisoActual");
             </div>
 
             <div id="console-output">
-                      <div id="info">
-                          <label><%out.print(partida.buscaCartaCoincident(partida.getCarta(pisoCartaActual, cartaPisoActual), partida.getLlistaJugadors(), pisoCartaActual));%></label>
-                      </div>
-                      <div id="botonera">
-                          <a href="/piramide-web/siguiente-carta">Siguiente carta</a>
-                          <a href="/piramide-web/restart">Reiniciar la partida</a>
-                      </div>
+                <div id="info">
+                  <%if(partida.getCarta(pisoCartaActual, cartaPisoActual)!=null){%>
+                    <label class="label"><%out.print(partida.buscaCartaCoincident(partida.getCarta(pisoCartaActual, cartaPisoActual), partida.getLlistaJugadors(), pisoCartaActual));%></label>
+                  <%} else{%>
+                      <label class="label">Final de la partida!</label>
+                  <%}%>
+                </div>
+                <div id="botonera">
+                <%if(partida.getCarta(pisoCartaActual, cartaPisoActual)!=null){%>
+                    <a class="boto" href="/piramide-web/siguiente-carta">Alça una carta</a>
+                <%} else{%>
+                    <a class="boto" href="/piramide-web/restart">Nova partida</a>
+                <%}%>
+                 </div>
             </div>
         </div>
     </body>

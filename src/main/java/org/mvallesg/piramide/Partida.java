@@ -19,7 +19,7 @@ public class Partida {
     public Partida(int nJugadors, ArrayList<Jugador> llistaJugadors) {
         this.llistaJugadors = llistaJugadors;
         //this.piramide = new TreeMap<>(Collections.reverseOrder());
-        this.piramide = new TreeMap<>(); // Crec que per a que es pinte bé La Piràmide, el map ha d'estar de llista més menuda a llista més gran
+        this.piramide = new TreeMap<>(); // Crec que per a que es pinte bÃ© La PirÃ mide, el map ha d'estar de llista mÃ©s menuda a llista mÃ©s gran
         this.pisoActual = piramide.size()-1;
         initPartida();
     }
@@ -93,7 +93,7 @@ public class Partida {
         for (Jugador llistaJugador : llistaJugadors) {
             for (int j = 0; j < llistaJugador.getCartes().size(); j++) {
                 if (cartaAlzada.getNumero().equals(llistaJugador.getCartes().get(j).getNumero())) {
-                    text = "\t\tAtencio! " + llistaJugador.getNom() + " te un " + cartaAlzada.getNumero() + " i ";
+                    text = "\t\tAtenciÃ³! " + llistaJugador.getNom() + " tÃ© un " + cartaAlzada.getNumero() + " i ";
                     if ((piramide.size()-piso) % 2 != 0) {
                         text += "ha de beure " + (piramide.size()-piso) + " trago";
 
@@ -109,25 +109,31 @@ public class Partida {
             }
         }
         if (!alguLaTe) {
-            text = "\t\tNingu la te.\n";
+            text = "\t\tNingÃº la tÃ©.\n";
         }
         return text;
     }
 
     public Carta getCarta(int piso, int indCarta){
-        return piramide.get(piso).get(indCarta);
+        Carta carta;
+        try{
+            carta = piramide.get(piso).get(indCarta);
+        } catch(Exception e){
+            return null;
+        }
+        return carta;
     }
 
     /*
-    En este punto se está montando la pirámide (por deficiencias de esta metodología, se llama a este método
+    En este punto se estÃ¡ montando la pirÃ¡mide (por deficiencias de esta metodologÃ­a, se llama a este mÃ©todo
     cada vez que se quiera destapar una carta del centro).
-    Es decir, cada vez que se destape una carta, se montará la pirámide de nuevo, y se mostrarán destapadas las
+    Es decir, cada vez que se destape una carta, se montarÃ¡ la pirÃ¡mide de nuevo, y se mostrarÃ¡n destapadas las
     que ya han sido previamente destapadas.
 
     pisoPiramide: piso que estamos montando en este momento
-    indCartaPiramide: índice de la carta que estamos montando en este momento, dentro del piso que estamos montando
+    indCartaPiramide: Ã­ndice de la carta que estamos montando en este momento, dentro del piso que estamos montando
     pisoCartaActual: piso en el que se encuentra la carta que queremos destapar
-    indCartaPisoActual: índice de la carta que queremos destapar, dentro del piso en el que se encuentra
+    indCartaPisoActual: Ã­ndice de la carta que queremos destapar, dentro del piso en el que se encuentra
      */
     public String consultaCarta(int pisoPiramide, int indCartaPiramide, int pisoCartaActual, int indCartaPisoActual) {
         String rutaCarta = "img\\carta_reves.png"; // Ruta de la carta antes de ser destapada

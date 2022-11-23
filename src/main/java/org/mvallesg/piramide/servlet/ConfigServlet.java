@@ -46,28 +46,36 @@ public class ConfigServlet extends HttpServlet {
             out.println("<html>");
             out.println("    <head>");
             out.println("        <meta charset=\"UTF-8\" />");
+            out.println("        <link rel=\"stylesheet\" href=\"styles/index.css\" type=\"text/css\">");
+            out.println("        <link rel=\"icon\" href=\"img/oros/1.PNG\">");
             out.println("        <title>Partida de La Piramide</title>");
             out.println("    </head>");
             out.println("    <body>");
-            out.println("            <h2>A continuació has d'indicar el nom dels jugadors</h2>");
-            out.println("            <form action=\"/piramide-web/partida?jugadors=" + nJug + "\" method=\"post\">");
+            out.println("        <div id=\"general\">");
+            out.println("            <div id=\"titulo\">");
+            out.println("                <h1>A continuació has d'indicar el nom dels jugadors</h1>");
+            out.println("            </div>");
+            out.println("            <div id=\"formulario\">");
+            out.println("                <form action=\"/piramide-web/partida?jugadors=" + nJug + "\" method=\"post\">");
             for (int i = 0; i < nJug; i++) {
-                out.println("            <div>");
-                out.println("                <label for=\"j" + (i+1) + "\">Jugador " + (i+1) + ":</label>");
                 out.println("                <div>");
+                out.println("                    <label class=\"label\" for=\"j" + (i+1) + "\">Jugador " + (i+1) + ":</label>");
+                out.println("                    <div>");
                 if(llistaJugadors!=null && llistaJugadors[i]!=null && llistaJugadors[i].getNom()!=null && !llistaJugadors[i].getNom().isBlank()){
-                    out.println("                    <input type=\"text\" name=\"j" + (i+1) + "\" id=\"j" + (i+1) + "\" value=\"" + llistaJugadors[i].getNom() + "\">");
+                    out.println("                        <input id=\"noms-jugadors\" type=\"text\" name=\"j" + (i+1) + "\" id=\"j" + (i+1) + "\" value=\"" + llistaJugadors[i].getNom() + "\">");
                 } else{
-                    out.println("                    <input type=\"text\" name=\"j" + (i+1) + "\" id=\"j" + (i+1) + "\">");
+                    out.println("                        <input id=\"noms-jugadors\" type=\"text\" name=\"j" + (i+1) + "\" id=\"j" + (i+1) + "\">");
                 }
+                out.println("                    </div>");
                 out.println("                </div>");
-                out.println("            </div>");
                 if(errors!=null && errors.containsKey("nomJugador"+(i+1))){
-                    out.println("            <div><small style='color: red;'>" + errors.get("nomJugador"+(i+1)) + "</small></div>");
+                    out.println("                <div class=\"error\"><small style='color: red;'>" + errors.get("nomJugador"+(i+1)) + "</small></div>");
                 }
             }
-            out.println("                <input type=\"submit\" value=\"Per començar clica aci\">");
-            out.println("            </form>");
+            out.println("                    <input id=\"boto\" type=\"submit\" value=\"Per començar clica aci\">");
+            out.println("                </form>");
+            out.println("            </div>");
+            out.println("        </div>");
             out.println("    </body>");
             out.println("</html>");
         }
